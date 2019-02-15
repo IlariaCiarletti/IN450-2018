@@ -148,11 +148,26 @@ rule4=Power[GF[a_],-1]:>GF[FI[a]];
 rule5=-GF[a_]:>GF[a];
 rule6=(a_;IntegerQ[a]) GF[b_]:>GF[Nest[FA[#,b]&,a,a-1]];
 rule7=GF[0]->0;
+rule8 = GF[a_] + GF[a_] :> GF[FA[a, a]];
 (*   
 rule8 = 1\[Rule] GF[1];
 rule9=b_ GF[a_]\[RuleDelayed] Mod[b,2] GF[a];
 *)
 rules={rule1,rule2,rule3,rule4,rule5,rule6,rule7};
+(*tentativi per la regola 6 *)
+FA[GF[44], GF[44]]
+0
+(GF[44] + GF[44]) /. rules
+GF[0]
+3 GF[44] /. rules
+3 GF[44]
+(2; IntegerQ[2]) GF[4]
+True GF[4]
+rule = If[IntegerQ[a_] == True, a_ GF[b_] :> Mod[a, 2] GF[b], 
+  a_ GF[b_] :> a GF[b]]
+GF[b_] a_ :> a GF[b]
+3 GF[33] //. rule
+3 GF[33]
 
 (*Produttoria[k_]:=Partition[Map[(Collect[Expand[#],x]//.rules)&,x(Xp[[k]]-Drop[Xp,{k}])^(-1)-Drop[Xp,{k}] (Xp[[k]]-Drop[Xp,{k}])^(-1) ],2,2,{1,1},1];*)
 Produttoria[k_]:=Partition[((x (Xp[[k]]-Drop[Xp,{k}])^(-1))//.rules)+(-Drop[Xp,{k}] (Xp[[k]]-Drop[Xp,{k}])^(-1)//.rules),2,2,{1,1},GF[1]];
